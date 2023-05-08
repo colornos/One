@@ -16,8 +16,8 @@ class Plugin:
     def __init__(self):
         return
 
-    def execute(self, config, temperaturedata):
-        # self.temperaturedata = temperaturedata
+    def execute(self, config, glucose_data):
+        # self.temperaturedata = glucose_data
         # --- part of plugin skeleton
         log = logging.getLogger(__name__)
         log.info('Starting plugin: ' + __name__)
@@ -43,13 +43,13 @@ class Plugin:
             print("No card detected!")
 
         else:
-            temperature = temperaturedata[0]['temperature']
+            glucose = glucose_data[0]['glucose']
             headers = {
-                'User-Agent': 'RaspberryPi/MBP70.py',
+                'User-Agent': 'RaspberryPi/One.py',
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-            form_data = {'rfid': rfid, 'pin': pin, 'one': temperature}
+            form_data = {'rfid': rfid, 'pin': pin, 'one': glucose}
             encoded_data = urllib.parse.urlencode(form_data)
-            r = http.request('POST', 'https://colornos.com/sensors/temperature.php', body=encoded_data, headers=headers)
+            r = http.request('POST', 'https://colornos.com/sensors/glucose.php', body=encoded_data, headers=headers)
             print(r.data)
             log.info('Finished plugin: ' + __name__)
