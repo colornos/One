@@ -24,8 +24,18 @@ def run_script1():
         return retTS
 
     def decode_glucose(handle, values):
-        data = unpack('<BHBBBHBBBBBH', bytes(values))
+    data = unpack('<BHBBHBBBH', bytes(values))
         retDict = {}
+        retDict["sequence_number"] = data[1]
+        retDict["year"] = data[2]
+        retDict["month"] = data[3]
+        retDict["day"] = data[4]
+        retDict["hours"] = data[5]
+        retDict["minutes"] = data[6]
+        retDict["seconds"] = data[7]
+        retDict["glucose"] = data[8] / 10.0  # Assuming the value is in 1/10th increments, adjust if necessary
+        retDict["type_sample_location"] = data[9]
+        retDict["sensor_status"] = data[10]
         # Populate retDict with relevant data fields from 'data'
         return retDict
 
